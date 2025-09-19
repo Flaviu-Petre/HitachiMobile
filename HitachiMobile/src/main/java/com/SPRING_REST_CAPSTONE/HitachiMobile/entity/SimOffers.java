@@ -1,5 +1,6 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +40,6 @@ public class SimOffers {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sim_id", referencedColumnName = "sim_id", insertable = false, updatable = false)
+    @JsonIgnore
     private SimDetails simDetails;
 }

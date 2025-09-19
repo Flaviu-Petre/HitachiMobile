@@ -1,8 +1,10 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.service;
 
+import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimOffers;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomerRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimDetailsRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimOffersRepository;
 import lombok.AllArgsConstructor;
@@ -17,11 +19,44 @@ import java.util.List;
 public class CustomerServiceImpl implements  CustomerService {
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private SimDetailsRepository simDetailsRepository;
 
     @Autowired
     private SimOffersRepository simOffersRepository;
 
+
+    @Override
+    public Customer createCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Customer updateCustomer(Long id, Customer customer) {
+        Customer existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+
+        existingCustomer.setFirstName(customer.getFirstName());
+        existingCustomer.setLastName(customer.getLastName());
+        existingCustomer.setEmailAddress(customer.getEmailAddress());
+        existingCustomer.setDateOfBirth(customer.getDateOfBirth());
+        existingCustomer.setIdType(customer.getIdType());
+        existingCustomer.setState(customer.getState());
+
+        return customerRepository.save(existingCustomer);
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
+    }
 
     @Override
     public String validateSimAndGetOffers(String simNumber, String serviceNumber) {

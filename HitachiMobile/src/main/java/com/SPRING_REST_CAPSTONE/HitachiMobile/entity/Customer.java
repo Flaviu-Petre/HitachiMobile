@@ -1,5 +1,6 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,9 +46,11 @@ public class Customer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_address_id", referencedColumnName = "address_id")
+    @JsonIgnore
     private CustomerAddress customerAddress;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<SimDetails> simDetailsList;
 
     //endregion
