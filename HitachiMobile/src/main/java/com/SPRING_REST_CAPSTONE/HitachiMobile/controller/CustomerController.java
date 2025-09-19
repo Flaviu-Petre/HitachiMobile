@@ -101,5 +101,18 @@ public class CustomerController {
         }
     }
 
+    @PostMapping("/validate-id-proof")
+    public ResponseEntity<IdProofValidationResponse> validateIdProof(@RequestBody IdProofValidationRequest request) {
+        try {
+            String message = customerService.validateCustomerIdProof(request);
+            IdProofValidationResponse response = new IdProofValidationResponse(message, true);
+            return ResponseEntity.ok(response);
+
+        } catch (InvalidDetailsException e) {
+            IdProofValidationResponse response = new IdProofValidationResponse(e.getMessage(), false);
+            return ResponseEntity.status(e.getStatus()).body(response);
+        }
+    }
+
 
 }
