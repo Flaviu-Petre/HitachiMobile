@@ -1,10 +1,8 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.controller;
 
-import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.CustomerValidationRequest;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.CustomerValidationResponse;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.SimValidationRequest;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.SimValidationResponse;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -82,6 +80,23 @@ public class CustomerController {
 
         } catch (InvalidDetailsException e) {
             CustomerValidationResponse response = new CustomerValidationResponse(e.getMessage(), false);
+            return ResponseEntity.status(e.getStatus()).body(response);
+        }
+    }
+
+    @PutMapping("/update-address")
+    public ResponseEntity<AddressUpdateResponse> updateCustomerAddress(@RequestBody AddressUpdateRequest request) {
+        try {
+            CustomerAddress updatedAddress = customerService.updateCustomerAddress(request);
+            AddressUpdateResponse response = new AddressUpdateResponse(
+                    "Address updated successfully",
+                    true,
+                    updatedAddress
+            );
+            return ResponseEntity.ok(response);
+
+        } catch (InvalidDetailsException e) {
+            AddressUpdateResponse response = new AddressUpdateResponse(e.getMessage(), false, null);
             return ResponseEntity.status(e.getStatus()).body(response);
         }
     }
