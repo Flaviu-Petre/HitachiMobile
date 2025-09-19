@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SimDetailsRepository extends JpaRepository<SimDetails, Integer> {
 
@@ -13,5 +15,5 @@ public interface SimDetailsRepository extends JpaRepository<SimDetails, Integer>
     SimDetails findBySimNumberAndServiceNumber(String simNumber, String serviceNumber);
 
     @Query("SELECT s FROM SimDetails s WHERE s.customer = ?1")
-    SimDetails findByCustomer(Customer customer);
+    List<SimDetails> findByCustomer(Customer customer);
 }

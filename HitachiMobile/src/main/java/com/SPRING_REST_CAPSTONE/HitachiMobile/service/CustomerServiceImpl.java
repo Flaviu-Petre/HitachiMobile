@@ -200,10 +200,10 @@ public class CustomerServiceImpl implements  CustomerService {
             throw new InvalidDetailsException("Customer Not Found", HttpStatus.NOT_FOUND);
         }
 
-        CustomerIdentity identity = customerIdentityRepository.findByUniqueIdNumber(customer.getUniqueIdNumber());
+        CustomerIdentity existingIdentity = customerIdentityRepository.findByUniqueIdNumber(customer.getUniqueIdNumber());
 
-        if (identity == null) {
-            identity = new CustomerIdentity();
+        if (existingIdentity == null) {
+            CustomerIdentity identity = new CustomerIdentity();
             identity.setUniqueIdNumber(customer.getUniqueIdNumber());
             identity.setFirstName(customer.getFirstName());
             identity.setLastName(customer.getLastName());
@@ -214,10 +214,12 @@ public class CustomerServiceImpl implements  CustomerService {
             customerIdentityRepository.save(identity);
         }
 
-        SimDetails simDetails = simDetailsRepository.findByCustomer(customer);
-        if (simDetails != null) {
-            simDetails.setSimStatus("active");
-            simDetailsRepository.save(simDetails);
+        List<SimDetails> simDetailsList = simDetailsRepository.findByCustomer(customer);
+        if (simDetailsList != null && !simDetailsList.isEmpty()) {
+            for (SimDetails simDetails : simDetailsList) {
+                simDetails.setSimStatus("active");
+                simDetailsRepository.save(simDetails);
+            }
         }
 
         return "ID proof validation successful and SIM activated";
