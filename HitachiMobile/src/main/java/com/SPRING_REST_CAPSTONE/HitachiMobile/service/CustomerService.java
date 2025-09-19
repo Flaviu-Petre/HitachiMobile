@@ -4,5 +4,5 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 
 public interface CustomerService {
 
-    boolean validateCustomerInformation(Customer customer);
+    String validateSimAndGetOffers(String simNumber, String serviceNumber);
 }
