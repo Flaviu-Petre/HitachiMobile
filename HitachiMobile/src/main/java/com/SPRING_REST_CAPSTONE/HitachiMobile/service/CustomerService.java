@@ -1,6 +1,8 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.service;
 
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.AddressUpdateRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
 
 public interface CustomerService {
 
@@ -12,5 +14,6 @@ public interface CustomerService {
 
     String validateSimAndGetOffers(String simNumber, String serviceNumber);
     String validateCustomerBasicDetails(String emailAddress, String dateOfBirth);
+    CustomerAddress updateCustomerAddress(AddressUpdateRequest request);
 
 }

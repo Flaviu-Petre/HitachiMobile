@@ -1,9 +1,12 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.service;
 
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.AddressUpdateRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimOffers;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomerAddressRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomerRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimDetailsRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimOffersRepository;
@@ -26,6 +29,9 @@ public class CustomerServiceImpl implements  CustomerService {
 
     @Autowired
     private SimOffersRepository simOffersRepository;
+
+    @Autowired
+    private CustomerAddressRepository customerAddressRepository;
 
 
     @Override
@@ -119,5 +125,51 @@ public class CustomerServiceImpl implements  CustomerService {
         }
 
         return "Customer validation successful";
+    }
+
+    @Override
+    public CustomerAddress updateCustomerAddress(AddressUpdateRequest request) {
+
+        if (request.getAddress() == null || request.getAddress().length() > 25) {
+            throw new InvalidDetailsException("Address should be maximum of 25 characters");
+        }
+
+        if (request.getZipCode() == null || !request.getZipCode().matches("\\d{6}")) {
+            throw new InvalidDetailsException("Pin should be 6 digit number");
+        }
+
+        if (request.getCity() == null || !request.getCity().matches("^[a-zA-Z\\s]+$")) {
+            throw new InvalidDetailsException("City/State should not contain any special characters except space");
+        }
+
+        if (request.getState() == null || !request.getState().matches("^[a-zA-Z\\s]+$")) {
+            throw new InvalidDetailsException("City/State should not contain any special characters except space");
+        }
+
+        Customer customer = customerRepository.findByUniqueIdNumber(request.getCustomerId());
+        if (customer == null) {
+            throw new InvalidDetailsException("Customer Not Found", HttpStatus.NOT_FOUND);
+        }
+
+        CustomerAddress address = customer.getCustomerAddress();
+        if (address == null) {
+            address = new CustomerAddress();
+            address.setAddress(request.getAddress());
+            address.setCity(request.getCity());
+            address.setState(request.getState());
+            address.setZipCode(request.getZipCode());
+            address = customerAddressRepository.save(address);
+
+            customer.setCustomerAddress(address);
+            customerRepository.save(customer);
+        } else {
+            address.setAddress(request.getAddress());
+            address.setCity(request.getCity());
+            address.setState(request.getState());
+            address.setZipCode(request.getZipCode());
+            address = customerAddressRepository.save(address);
+        }
+
+        return address;
     }
 }
