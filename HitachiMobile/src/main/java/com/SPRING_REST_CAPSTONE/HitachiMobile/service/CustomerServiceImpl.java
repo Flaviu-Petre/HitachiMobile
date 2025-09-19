@@ -1,15 +1,10 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.service;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.AddressUpdateRequest;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimOffers;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomerAddressRepository;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomerRepository;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimDetailsRepository;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimOffersRepository;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +16,7 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements  CustomerService {
 
+    //region Repositories
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -33,7 +29,11 @@ public class CustomerServiceImpl implements  CustomerService {
     @Autowired
     private CustomerAddressRepository customerAddressRepository;
 
+    @Autowired
+    private CustomerIdentityRepository customerIdentityRepository;
+    //endregion
 
+    //region CRUD Operations
     @Override
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
@@ -63,6 +63,7 @@ public class CustomerServiceImpl implements  CustomerService {
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
+    //endregion
 
     @Override
     public String validateSimAndGetOffers(String simNumber, String serviceNumber) {
@@ -171,5 +172,54 @@ public class CustomerServiceImpl implements  CustomerService {
         }
 
         return address;
+    }
+
+    @Override
+    public String validateCustomerIdProof(IdProofValidationRequest request) {
+
+        if (request.getAadharNumber() == null || !request.getAadharNumber().matches("\\d{16}")) {
+            throw new InvalidDetailsException("Id should be 16 digits");
+        }
+
+        if (request.getDateOfBirth() == null || !request.getDateOfBirth().matches("\\d{4}-\\d{2}-\\d{2}")) {
+            throw new InvalidDetailsException("Invalid details");
+        }
+
+        if (request.getFirstName() == null || request.getFirstName().trim().isEmpty() ||
+                request.getLastName() == null || request.getLastName().trim().isEmpty()) {
+            throw new InvalidDetailsException("Invalid details");
+        }
+
+        Customer customer = customerRepository.findByFirstNameAndLastNameAndDateOfBirth(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getDateOfBirth()
+        );
+
+        if (customer == null) {
+            throw new InvalidDetailsException("Customer Not Found", HttpStatus.NOT_FOUND);
+        }
+
+        CustomerIdentity identity = customerIdentityRepository.findByUniqueIdNumber(customer.getUniqueIdNumber());
+
+        if (identity == null) {
+            identity = new CustomerIdentity();
+            identity.setUniqueIdNumber(customer.getUniqueIdNumber());
+            identity.setFirstName(customer.getFirstName());
+            identity.setLastName(customer.getLastName());
+            identity.setEmailAddress(customer.getEmailAddress());
+            identity.setDateOfBirth(customer.getDateOfBirth());
+            identity.setState(customer.getState());
+            identity.setCustomer(customer);
+            customerIdentityRepository.save(identity);
+        }
+
+        SimDetails simDetails = simDetailsRepository.findByCustomer(customer);
+        if (simDetails != null) {
+            simDetails.setSimStatus("active");
+            simDetailsRepository.save(simDetails);
+        }
+
+        return "ID proof validation successful and SIM activated";
     }
 }
