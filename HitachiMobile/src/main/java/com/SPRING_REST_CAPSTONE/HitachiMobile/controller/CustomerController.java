@@ -1,8 +1,11 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.controller;
 
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.CustomerValidationRequest;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.CustomerValidationResponse;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.SimValidationRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.SimValidationResponse;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ public class CustomerController {
         return customerService.createCustomer(customer);
     }
 
+    //region Crud Operations
     @GetMapping("/get/{id}")
     public Customer getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
@@ -47,6 +51,8 @@ public class CustomerController {
             return "Error deleting customer: " + e.getMessage();
         }
     }
+    //endregion
+
 
     @PostMapping("/validate")
     public ResponseEntity<SimValidationResponse> validateSim(@RequestBody SimValidationRequest request) {
@@ -63,4 +69,22 @@ public class CustomerController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @PostMapping("/validate-customer")
+    public ResponseEntity<CustomerValidationResponse> validateCustomerDetails(@RequestBody CustomerValidationRequest request) {
+        try {
+            String message = customerService.validateCustomerBasicDetails(
+                    request.getEmailAddress(),
+                    request.getDateOfBirth()
+            );
+            CustomerValidationResponse response = new CustomerValidationResponse(message, true);
+            return ResponseEntity.ok(response);
+
+        } catch (InvalidDetailsException e) {
+            CustomerValidationResponse response = new CustomerValidationResponse(e.getMessage(), false);
+            return ResponseEntity.status(e.getStatus()).body(response);
+        }
+    }
+
+
 }

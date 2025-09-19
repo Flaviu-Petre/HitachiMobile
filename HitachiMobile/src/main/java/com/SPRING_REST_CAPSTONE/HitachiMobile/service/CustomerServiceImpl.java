@@ -93,4 +93,31 @@ public class CustomerServiceImpl implements  CustomerService {
                 offer.getCost(),
                 offer.getDuration());
     }
+
+    @Override
+    public String validateCustomerBasicDetails(String emailAddress, String dateOfBirth) {
+        if (emailAddress == null || emailAddress.trim().isEmpty()) {
+            throw new InvalidDetailsException("Email/dob value is required");
+        }
+
+        if (dateOfBirth == null || dateOfBirth.trim().isEmpty()) {
+            throw new InvalidDetailsException("Email/dob value is required");
+        }
+
+        if (!dateOfBirth.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            throw new InvalidDetailsException("dob should be in yyyy-mm-dd format");
+        }
+
+        if (!emailAddress.matches("^[^@]+@[^@]+\\.[a-zA-Z]{2,3}$")) {
+            throw new InvalidDetailsException("Invalid email");
+        }
+
+        Customer customer = customerRepository.findByEmailAddressAndDateOfBirth(emailAddress, dateOfBirth);
+
+        if (customer == null) {
+            throw new InvalidDetailsException("No request placed for you", HttpStatus.NOT_FOUND);
+        }
+
+        return "Customer validation successful";
+    }
 }

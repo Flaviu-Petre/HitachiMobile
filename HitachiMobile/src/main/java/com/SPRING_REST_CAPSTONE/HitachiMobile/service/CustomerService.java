@@ -10,6 +10,7 @@ public interface CustomerService {
     Customer updateCustomer(Long id, Customer customer);
     void deleteCustomer(Long id);
 
-
     String validateSimAndGetOffers(String simNumber, String serviceNumber);
+    String validateCustomerBasicDetails(String emailAddress, String dateOfBirth);
+
 }
