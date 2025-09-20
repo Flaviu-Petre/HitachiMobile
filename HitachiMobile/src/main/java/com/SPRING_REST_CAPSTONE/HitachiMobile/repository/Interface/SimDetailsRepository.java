@@ -16,4 +16,5 @@ public interface SimDetailsRepository extends JpaRepository<SimDetails, Long> {
 
     @Query("SELECT s FROM SimDetails s WHERE s.customer = ?1")
     List<SimDetails> findByCustomer(Customer customer);
+
 }

@@ -10,5 +10,7 @@ public interface SimDetailsService {
     SimDetails updateSimDetails(Long id, SimDetails simDetails);
     void deleteSimDetails(Long id);
 
+    SimDetails assignSimToCustomer(Long simId, Long customerId);
+
 
 }

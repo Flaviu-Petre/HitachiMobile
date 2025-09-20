@@ -54,4 +54,14 @@ public class SimDetailsController {
         }
     }
     //endregion
+
+    @PutMapping("/assign-sim/{simId}/customer/{customerId}")
+    public ResponseEntity<String> assignSimToCustomer(@PathVariable Long simId, @PathVariable Long customerId) {
+        try {
+            simDetailsService.assignSimToCustomer(simId, customerId);
+            return ResponseEntity.ok("SIM assigned to customer successfully");
+        } catch (InvalidDetailsException e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+        }
+    }
 }
