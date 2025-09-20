@@ -4,12 +4,16 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.CustomerRepository;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.SimDetailsRepository;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface.SimDetailsRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.SimDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -56,5 +60,15 @@ public class SimDetailsServiceImpl implements SimDetailsService {
 
         simDetails.setCustomer(customer);
         return simDetailsRepository.save(simDetails);
+    }
+
+    @Override
+    public java.util.List<SimDetails> getActiveSimDetails() {
+        List<SimDetails> activeSimDetails = simDetailsRepository.findActiveSimDetails();
+
+        return activeSimDetails.stream()
+                .filter(sim -> sim.getSimNumber() != null)
+                .sorted(Comparator.comparing(SimDetails::getSimId))
+                .collect(Collectors.toList());
     }
 }
