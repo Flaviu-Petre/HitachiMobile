@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CustomerRepositoryCustom {
     List<Customer> findCustomersInBangalore();
+    List<Customer> findAllCustomers();
 }

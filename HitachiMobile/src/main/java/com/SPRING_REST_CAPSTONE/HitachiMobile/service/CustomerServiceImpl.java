@@ -242,5 +242,15 @@ public class CustomerServiceImpl implements CustomerService {
                 .sorted(Comparator.comparing(Customer::getFirstName))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+
+        return customers.stream()
+                .filter(customer -> customer.getFirstName() != null)
+                .sorted(Comparator.comparing(Customer::getFirstName))
+                .collect(Collectors.toList());
+    }
     //endregion
 }

@@ -21,6 +21,7 @@ public interface CustomerService {
     String validateCustomerIdProof(IdProofValidationRequest request);
 
     List<Customer> getCustomersInBangalore();
+    List<Customer> getAllCustomers();
 
 
 }

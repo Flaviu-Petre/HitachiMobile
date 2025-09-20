@@ -3,12 +3,10 @@ package com.SPRING_REST_CAPSTONE.HitachiMobile.repository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.SIMDoesNotExistException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomInterface.SimDetailsRepositoryCustom;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface.SimDetailsRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
