@@ -62,6 +62,7 @@ public class CustomerController {
     //endregion
 
 
+
     @PostMapping("/validate")
     public ResponseEntity<SimValidationResponse> validateSim(@RequestBody SimValidationRequest request) {
         try {

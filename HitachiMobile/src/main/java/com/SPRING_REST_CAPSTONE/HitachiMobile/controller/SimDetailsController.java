@@ -1,9 +1,7 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.controller;
 
-import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.SimDetailsRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.SimDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/simDetails")
 @AllArgsConstructor
-public class ServiceController {
+public class SimDetailsController {
 
     @Autowired
     private SimDetailsService simDetailsService;

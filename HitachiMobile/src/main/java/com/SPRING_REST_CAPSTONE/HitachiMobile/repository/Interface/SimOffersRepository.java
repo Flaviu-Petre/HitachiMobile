@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SimOffersRepository extends CrudRepository<SimOffers, Integer> {
+public interface SimOffersRepository extends CrudRepository<SimOffers, Long> {
 
     @Query ("SELECT s FROM SimOffers s WHERE s.simId = ?1")
-    List<SimOffers> findBySimId(Integer simId);
+    List<SimOffers> findBySimId(Long simId);
 }

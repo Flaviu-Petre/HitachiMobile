@@ -18,7 +18,7 @@ public class SimOffers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "offer_id")
-    private Integer offerId;
+    private Long offerId;
 
     @Column(name = "call_qty", nullable = false)
     private Double callQty;
