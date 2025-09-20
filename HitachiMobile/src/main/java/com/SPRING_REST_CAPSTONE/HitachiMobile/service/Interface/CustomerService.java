@@ -22,6 +22,7 @@ public interface CustomerService {
 
     List<Customer> getCustomersInBangalore();
     List<Customer> getAllCustomers();
+    CustomerAddress UpdateCustomerAddressCriteria(AddressUpdateRequest request);
 
 
 }

@@ -252,5 +252,11 @@ public class CustomerServiceImpl implements CustomerService {
                 .sorted(Comparator.comparing(Customer::getFirstName))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CustomerAddress UpdateCustomerAddressCriteria(AddressUpdateRequest request) {
+        return customerRepository.updateCustomerAddress(request);
+    }
+
     //endregion
 }

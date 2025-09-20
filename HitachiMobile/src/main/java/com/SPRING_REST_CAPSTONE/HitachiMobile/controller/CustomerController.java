@@ -145,4 +145,22 @@ public class CustomerController {
         }
     }
 
+    @PutMapping("/update-adrress-details/{id}")
+    public ResponseEntity<AddressUpdateResponse> UpdateCustomerAddressCriteria(@PathVariable Long id, @RequestBody AddressUpdateRequest request) {
+        try {
+            request.setCustomerId(id);
+            CustomerAddress updatedAddress = customerService.UpdateCustomerAddressCriteria(request);
+            AddressUpdateResponse response = new AddressUpdateResponse(
+                    "Address updated successfully",
+                    true,
+                    updatedAddress
+            );
+            return ResponseEntity.ok(response);
+
+        } catch (InvalidDetailsException e) {
+            AddressUpdateResponse response = new AddressUpdateResponse(e.getMessage(), false, null);
+            return ResponseEntity.status(e.getStatus()).body(response);
+        }
+    }
+
 }
