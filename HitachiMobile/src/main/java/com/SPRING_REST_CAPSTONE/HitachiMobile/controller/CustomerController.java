@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/Customer")
-@AllArgsConstructor
 public class CustomerController {
 
     @Autowired
@@ -60,7 +59,6 @@ public class CustomerController {
         }
     }
     //endregion
-
 
 
     @PostMapping("/validate")

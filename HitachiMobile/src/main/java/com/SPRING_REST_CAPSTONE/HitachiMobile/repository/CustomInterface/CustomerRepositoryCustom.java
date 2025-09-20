@@ -1,4 +1,4 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomInterface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 

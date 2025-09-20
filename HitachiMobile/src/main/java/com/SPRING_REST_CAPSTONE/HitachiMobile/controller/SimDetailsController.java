@@ -5,12 +5,15 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.SimDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/simDetails")
-@AllArgsConstructor
 public class SimDetailsController {
 
     @Autowired
@@ -62,6 +65,17 @@ public class SimDetailsController {
             return ResponseEntity.ok("SIM assigned to customer successfully");
         } catch (InvalidDetailsException e) {
             return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/active-sims")
+    public ResponseEntity<List<SimDetails>> getActiveSimDetails() {
+        try {
+            List<SimDetails> activeSimDetails = simDetailsService.getActiveSimDetails();
+            return ResponseEntity.ok(activeSimDetails);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.emptyList());
         }
     }
 }

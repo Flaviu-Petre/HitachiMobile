@@ -1,7 +1,8 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimDetails;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomInterface.SimDetailsRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SimDetailsRepository extends JpaRepository<SimDetails, Long> {
+public interface SimDetailsRepository extends JpaRepository<SimDetails, Long>, SimDetailsRepositoryCustom {
 
     @Query ("SELECT s FROM SimDetails s WHERE s.simNumber = ?1 AND s.serviceNumber = ?2")
     SimDetails findBySimNumberAndServiceNumber(String simNumber, String serviceNumber);

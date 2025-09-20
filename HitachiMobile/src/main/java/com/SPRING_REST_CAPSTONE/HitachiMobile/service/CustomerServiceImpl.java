@@ -5,6 +5,8 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.*;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface.SimDetailsRepository;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface.SimOffersRepository;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

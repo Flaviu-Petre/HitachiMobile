@@ -1,7 +1,7 @@
 package com.SPRING_REST_CAPSTONE.HitachiMobile.repository;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.CustomerRepositoryCustom;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.CustomInterface.CustomerRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;

@@ -1,4 +1,4 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.SimInterface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.SimOffers;
 import org.springframework.data.jpa.repository.Query;
