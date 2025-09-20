@@ -5,6 +5,8 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
 
+import java.util.List;
+
 public interface CustomerService {
 
     //Crud Operations
@@ -17,6 +19,8 @@ public interface CustomerService {
     String validateCustomerBasicDetails(String emailAddress, String dateOfBirth);
     CustomerAddress updateCustomerAddress(AddressUpdateRequest request);
     String validateCustomerIdProof(IdProofValidationRequest request);
+
+    List<Customer> getCustomersInBangalore();
 
 
 }

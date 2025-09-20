@@ -4,13 +4,15 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.AddressUpdateRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.*;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -41,7 +43,8 @@ public class CustomerServiceImpl implements  CustomerService {
 
     @Override
     public Customer getCustomerById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new InvalidDetailsException("Customer not found with id: " + id, HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -223,5 +226,15 @@ public class CustomerServiceImpl implements  CustomerService {
         }
 
         return "ID proof validation successful and SIM activated";
+    }
+
+    @Override
+    public List<Customer> getCustomersInBangalore() {
+        List<Customer> customers = customerRepository.findCustomersInBangalore();
+
+        return customers.stream()
+                .filter(customer -> customer.getFirstName() != null)
+                .sorted(Comparator.comparing(Customer::getFirstName))
+                .collect(Collectors.toList());
     }
 }
