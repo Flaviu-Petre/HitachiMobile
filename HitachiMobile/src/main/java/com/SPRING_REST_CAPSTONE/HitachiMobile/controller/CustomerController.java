@@ -7,8 +7,12 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/sim")
@@ -25,18 +29,24 @@ public class CustomerController {
 
     //region Crud Operations
     @GetMapping("/get/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        try {
+            Customer customer = customerService.getCustomerById(id);
+            return ResponseEntity.ok(customer);
+        } catch (InvalidDetailsException e) {
+            return ResponseEntity.status(e.getStatus()).build();
+        }
     }
 
     @PutMapping("/update/{id}")
-    public String updateCustomer(@PathVariable Long id, @RequestBody Object customer)
-    {
+    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         try {
-            customerService.updateCustomer(id, (Customer) customer);
-            return "Customer updated successfully.";
-        } catch (Exception e) {
-            return "Error updating customer: " + e.getMessage();
+            customerService.updateCustomer(id, customer);
+            return ResponseEntity.ok("Customer updated successfully.");
+        } catch (InvalidDetailsException e) {
+            return ResponseEntity.status(e.getStatus()).body("Error updating customer: " + e.getMessage());
+        } catch (ClassCastException e) {
+            return ResponseEntity.badRequest().body("Invalid request format. Please provide valid customer data.");
         }
     }
 
@@ -114,5 +124,15 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/customers/bangalore")
+    public ResponseEntity<List<Customer>> getCustomersInBangalore() {
+        try {
+            List<Customer> customers = customerService.getCustomersInBangalore();
+            return ResponseEntity.ok(customers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.emptyList());
+        }
+    }
 
 }
