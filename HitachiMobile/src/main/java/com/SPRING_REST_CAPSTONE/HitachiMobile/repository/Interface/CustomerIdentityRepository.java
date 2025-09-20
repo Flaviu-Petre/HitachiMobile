@@ -1,4 +1,4 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.repository;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerIdentity;
 import org.springframework.data.jpa.repository.JpaRepository;

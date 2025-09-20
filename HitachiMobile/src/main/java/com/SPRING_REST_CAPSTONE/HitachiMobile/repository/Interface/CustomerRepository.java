@@ -1,14 +1,12 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.repository;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long>, CustomerRepositoryCustom {
 
     Customer findByEmailAddressAndDateOfBirth(String emailAddress, String dateOfBirth);
 
