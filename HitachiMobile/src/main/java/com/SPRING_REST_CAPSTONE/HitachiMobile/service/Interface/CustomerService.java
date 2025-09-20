@@ -1,4 +1,4 @@
-package com.SPRING_REST_CAPSTONE.HitachiMobile.service;
+package com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface;
 
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.AddressUpdateRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;

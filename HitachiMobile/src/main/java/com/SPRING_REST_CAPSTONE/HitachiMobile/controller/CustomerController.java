@@ -4,7 +4,7 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.Customer;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.CustomerAddress;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
-import com.SPRING_REST_CAPSTONE.HitachiMobile.service.CustomerService;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sim")
+@RequestMapping("/api/Customer")
 @AllArgsConstructor
 public class CustomerController {
 

@@ -5,6 +5,7 @@ import com.SPRING_REST_CAPSTONE.HitachiMobile.dto.IdProofValidationRequest;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.entity.*;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.exception.InvalidDetailsException;
 import com.SPRING_REST_CAPSTONE.HitachiMobile.repository.Interface.*;
+import com.SPRING_REST_CAPSTONE.HitachiMobile.service.Interface.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class CustomerServiceImpl implements  CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     //region Repositories
     @Autowired
@@ -50,7 +51,7 @@ public class CustomerServiceImpl implements  CustomerService {
     @Override
     public Customer updateCustomer(Long id, Customer customer) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+                .orElseThrow(() -> new InvalidDetailsException("Customer not found with id: " + id));
 
         existingCustomer.setFirstName(customer.getFirstName());
         existingCustomer.setLastName(customer.getLastName());
@@ -68,6 +69,8 @@ public class CustomerServiceImpl implements  CustomerService {
     }
     //endregion
 
+
+    //region Custom Methods
     @Override
     public String validateSimAndGetOffers(String simNumber, String serviceNumber) {
 
@@ -237,4 +240,5 @@ public class CustomerServiceImpl implements  CustomerService {
                 .sorted(Comparator.comparing(Customer::getFirstName))
                 .collect(Collectors.toList());
     }
+    //endregion
 }

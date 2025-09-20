@@ -20,7 +20,7 @@ public class SimDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sim_id")
-    private Integer simId;
+    private Long simId;
 
     @Column(name = "service_number", nullable = false, unique = true)
     private String serviceNumber;

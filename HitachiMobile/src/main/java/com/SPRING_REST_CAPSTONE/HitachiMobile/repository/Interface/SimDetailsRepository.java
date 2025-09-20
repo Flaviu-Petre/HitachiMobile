@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SimDetailsRepository extends JpaRepository<SimDetails, Integer> {
+public interface SimDetailsRepository extends JpaRepository<SimDetails, Long> {
 
     @Query ("SELECT s FROM SimDetails s WHERE s.simNumber = ?1 AND s.serviceNumber = ?2")
     SimDetails findBySimNumberAndServiceNumber(String simNumber, String serviceNumber);
