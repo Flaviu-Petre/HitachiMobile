@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SimDetailsRepositoryCustom {
     List<SimDetails> findActiveSimDetails();
+    String fetchSimStatus(String simNumber, String serviceNumber);
 }

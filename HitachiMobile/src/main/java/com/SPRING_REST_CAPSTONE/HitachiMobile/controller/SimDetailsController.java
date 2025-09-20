@@ -78,4 +78,14 @@ public class SimDetailsController {
                     .body(Collections.emptyList());
         }
     }
+
+    @GetMapping("/sim-status")
+    public ResponseEntity<String> fetchSimStatus(@RequestParam String simNumber, @RequestParam String serviceNumber) {
+        try {
+            String simStatus = simDetailsService.fetchSimStatus(simNumber, serviceNumber);
+            return ResponseEntity.ok(simStatus);
+        } catch (InvalidDetailsException e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+        }
+    }
 }

@@ -14,6 +14,7 @@ public interface SimDetailsService {
 
     SimDetails assignSimToCustomer(Long simId, Long customerId);
     List<SimDetails> getActiveSimDetails();
+    String fetchSimStatus(String simNumber, String serviceNumber);
 
 
 }

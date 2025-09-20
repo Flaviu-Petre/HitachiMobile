@@ -25,6 +25,7 @@ public class SimDetailsServiceImpl implements SimDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    //region CRUD Operations
     @Override
     public SimDetails createSimDetails(SimDetails simDetails) {
         return simDetailsRepository.save(simDetails);
@@ -51,7 +52,10 @@ public class SimDetailsServiceImpl implements SimDetailsService {
     public void deleteSimDetails(Long id) {
         simDetailsRepository.deleteById(id);
     }
+    //endregion
 
+
+    // Assign SIM to Customer
     @Override
     public SimDetails assignSimToCustomer(Long simId, Long customerId) {
         SimDetails simDetails = getSimDetailsById(simId);
@@ -71,4 +75,10 @@ public class SimDetailsServiceImpl implements SimDetailsService {
                 .sorted(Comparator.comparing(SimDetails::getSimId))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String fetchSimStatus(String simNumber, String serviceNumber) {
+        return simDetailsRepository.fetchSimStatus(simNumber, serviceNumber);
+    }
+    //endregion
 }
